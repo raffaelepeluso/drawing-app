@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="BaseAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="drawingapp.FXMLViewController">
+   <children>
+      <ToolBar prefHeight="36.0" prefWidth="713.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleLoadOperation" text="Load" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSaveOperation" text="Save" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <Menu disable="true" mnemonicParsing="false" text="Shape Creation Command">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Import SCC" />
+                              <MenuItem mnemonicParsing="false" text="Export SCC" />
+                          </items>
+                        </Menu>
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <Button mnemonicParsing="false" onAction="#handleUndoButton" prefHeight="25.0" prefWidth="49.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/undo-circular-arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <HBox fx:id="commandButtons" disable="true" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleDeleteButton">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/trash.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#handleCopyButton">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/copying.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#handleCutButton">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/scissors.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <Button fx:id="pasteButton" disable="true" mnemonicParsing="false" onAction="#handlePasteButton">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/paste.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom:" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="100%" />
+            <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/magnifying-glass-minus.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/magnifying-glass.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grid:" />
+            <CheckBox disable="true" mnemonicParsing="false" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grid size:" />
+            <TextField disable="true" prefHeight="26.0" prefWidth="38.0" />
+         </items>
+      </ToolBar>
+      <SplitPane dividerPositions="0.19298245614035087" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <items>
+            <AnchorPane id="leftPanel" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="160.0">
+               <children>
+                  <TabPane layoutX="4.0" layoutY="6.0" prefHeight="182.0" prefWidth="131.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="6.0">
+                    <tabs>
+                      <Tab text="Shapes">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="151.0" prefWidth="131.0">
+                                 <children>
+                                    <Button layoutX="24.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleRectangleAdd">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/rectangular-shape-outline.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button layoutX="24.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleEllipseAdd">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/ellipse-outline-shape-variant.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button layoutX="76.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleLineAdd">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/diagonal-line.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button disable="true" layoutX="76.0" layoutY="60.0" mnemonicParsing="false">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/polygon.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button disable="true" layoutX="24.0" layoutY="100.0" mnemonicParsing="false">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/text.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab disable="true" text="SCC">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.7913669064748201" orientation="VERTICAL" prefHeight="141.0" prefWidth="131.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <ScrollBar layoutX="115.0" orientation="VERTICAL" prefHeight="107.0" prefWidth="14.0" />
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="129.0">
+                                             <children>
+                                                <Button layoutX="33.0" layoutY="1.0" mnemonicParsing="false" text="Add SCC" />
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children></AnchorPane>
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+                  <Text layoutX="5.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" />
+                  <Separator layoutX="-1.0" layoutY="206.0" prefHeight="25.0" prefWidth="139.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
+                  <Text layoutX="4.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Outline Color" wrappingWidth="97.458984375" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
+                  <ColorPicker fx:id="outColor" layoutX="10.0" layoutY="240.0" onAction="#handleChangeOutColor" prefHeight="30.0" prefWidth="113.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0">
+                     <value>
+                        <Color />
+                     </value>
+                  </ColorPicker>
+                  <Text layoutX="4.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filler Color" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
+                  <ColorPicker fx:id="fillColor" layoutX="10.0" layoutY="292.0" onAction="#handleChangeFillColor" prefHeight="30.0" prefWidth="113.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
+                  <Separator layoutX="-3.0" layoutY="317.0" prefHeight="25.0" prefWidth="145.0" />
+                  <VBox alignment="CENTER" layoutY="339.0" spacing="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Button layoutX="42.0" layoutY="333.0" mnemonicParsing="false" onAction="#handleSelection" prefHeight="26.0" prefWidth="48.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="51.0">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/selection.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <HBox alignment="CENTER_RIGHT" layoutX="6.0" layoutY="362.0" spacing="4.0">
+                           <children>
+                              <ToggleButton disable="true" layoutX="6.0" layoutY="376.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="16.0">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@image/link.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </graphic>
+                              </ToggleButton>
+                              <VBox alignment="CENTER_LEFT" layoutX="43.0" layoutY="362.0" spacing="1.0">
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" layoutX="43.0" layoutY="362.0" spacing="5.0">
+                                       <children>
+                                          <Text layoutX="43.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height" />
+                                          <TextField fx:id="heightField" layoutX="85.0" layoutY="362.0" onKeyPressed="#handleChangeHeight" prefHeight="25.0" prefWidth="49.0" AnchorPane.rightAnchor="4.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" layoutX="43.0" layoutY="389.0" spacing="10.0">
+                                       <children>
+                                          <Text layoutX="43.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width" />
+                                          <TextField fx:id="widthField" layoutX="85.0" layoutY="389.0" onKeyPressed="#handleChangeWidth" prefHeight="25.0" prefWidth="49.0" AnchorPane.rightAnchor="4.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" layoutX="69.0" layoutY="417.0" spacing="5.0">
+                           <children>
+                              <Text layoutX="69.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x" />
+                              <TextField layoutX="85.0" layoutY="417.0" onKeyPressed="#handleChangePosition" prefHeight="25.0" prefWidth="49.0" AnchorPane.rightAnchor="4.0" fx:id="xField" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" layoutX="68.0" layoutY="439.0" spacing="5.0">
+                           <children>
+                              <Text layoutX="68.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="y" />
+                              <TextField fx:id="yField" layoutX="85.0" layoutY="444.0" onKeyPressed="#handleChangePosition" prefHeight="25.0" prefWidth="49.0" AnchorPane.rightAnchor="4.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" layoutX="44.0" layoutY="481.0" spacing="5.0">
+                           <children>
+                              <Text layoutX="44.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Angle" />
+                              <TextField disable="true" layoutX="97.0" layoutY="481.0" prefHeight="25.0" prefWidth="49.0" AnchorPane.rightAnchor="4.0" />
+                           </children>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <GridPane fx:id="operationButtons" alignment="CENTER" disable="true" layoutX="11.0" layoutY="528.0" vgap="3.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="537.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button disable="true" layoutX="100.0" layoutY="528.0" mnemonicParsing="false" AnchorPane.rightAnchor="11.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/group.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button disable="true" layoutX="11.0" layoutY="528.0" mnemonicParsing="false" AnchorPane.leftAnchor="11.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/flip_horizontally.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="55.0" layoutY="566.0" mnemonicParsing="false" onAction="#handleSendToBack" AnchorPane.leftAnchor="55.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/noun-send-to-back-59101.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button disable="true" layoutX="100.0" layoutY="566.0" mnemonicParsing="false" AnchorPane.rightAnchor="11.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/ungroup.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button disable="true" layoutX="11.0" layoutY="566.0" mnemonicParsing="false" AnchorPane.leftAnchor="11.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/flip_vertically.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="55.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleBringToFront" AnchorPane.leftAnchor="55.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@image/noun-bring-to-front-59098.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <ScrollPane prefHeight="615.0" prefViewportHeight="613.0" prefViewportWidth="642.0" prefWidth="644.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <Pane fx:id="drawingSurface" onMouseClicked="#handleClickDrawingSurface" onMouseMoved="#handleMouseMovedDrawingSurface" onMouseReleased="#handleMouseRelease" prefHeight="2000.0" prefWidth="2000.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
